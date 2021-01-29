@@ -28,7 +28,7 @@ mongoose.connect(
     } else {
       console.log(`${MONGO_USER} Connected To MongoDB`);
     }
-  },
+  }
 );
 
 app.use(express.urlencoded({ extended: false }));
@@ -40,7 +40,7 @@ app.use(
       'https://my-daily-climb.herokuapp.com',
     ],
     credentials: true,
-  }),
+  })
 );
 
 //MIDDLEWARE
@@ -50,7 +50,7 @@ app.use(express.json());
 const SESSION_SECRET = process.env.REACT_APP_SESSIONSECRET;
 
 app.use(
-  session({ secret: SESSION_SECRET, resave: true, saveUninitialized: true }),
+  session({ secret: SESSION_SECRET, resave: true, saveUninitialized: true })
 );
 
 app.use(cookieParser(SESSION_SECRET));
@@ -64,11 +64,11 @@ require('./passportConfig')(passport);
 // TODO: this is for production, not required for development
 // remove : " "proxy": "http://localhost:3001", " to package.json
 
-app.get('/', function (req, res) {
-  res.sendFile(path.join(__dirname, '../build', 'index.html'));
-});
+// app.get('/', function (req, res) {
+//   res.sendFile(path.join(__dirname, '../build', 'index.html'));
+// });
 
-app.use('/', express.static(path.join(__dirname, '../build')));
+// app.use('/', express.static(path.join(__dirname, '../build')));
 
 app.use('/authenticate', auth);
 app.use('/api/exercises', exercisesApi);
