@@ -35,11 +35,7 @@ mongoose.connect(
 app.use(express.urlencoded({ extended: false }));
 app.use(
   cors({
-    origin: [
-      'http://localhost:3000',
-      'http://localhost:3001',
-      'https://my-daily-climb.herokuapp.com',
-    ],
+    origin: ['http://localhost:3000', 'https://my-daily-climb.netlify.app/'],
     credentials: true,
   })
 );
