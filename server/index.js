@@ -12,13 +12,13 @@ const profilesApi = require('./routes/profiles');
 const dotenv = require('dotenv');
 dotenv.config();
 
-const PORT = process.env.REACT_APP_PORT || 3001;
+const PORT = process.env.PORT || 3001;
 const app = express();
 
 //---------------End of Imports---------------------
 
-const MONGO_USER = process.env.REACT_APP_MONGOUSER;
-const MONGO_PW = process.env.REACT_APP_MONGOPW;
+const MONGO_USER = process.env.MONGOUSER;
+const MONGO_PW = process.env.MONGOPW;
 
 mongoose.connect(
   `mongodb+srv://${MONGO_USER}:${MONGO_PW}@cluster0.zsz9c.mongodb.net/my-daily-climb?retryWrites=true&w=majority`,
@@ -48,7 +48,7 @@ app.use(
 
 app.use(express.json());
 
-const SESSION_SECRET = process.env.REACT_APP_SESSIONSECRET;
+const SESSION_SECRET = process.env.SESSIONSECRET;
 
 app.use(
   session({ secret: SESSION_SECRET, resave: true, saveUninitialized: true })
@@ -73,7 +73,7 @@ require('./passportConfig')(passport);
 
 app.use('/authenticate', auth);
 app.use('/api/exercises', exercisesApi);
-app.get('/api/profiles', profilesApi);
+app.use('/api/profiles', profilesApi);
 
 //--------------End of Routes --------------------------
 
