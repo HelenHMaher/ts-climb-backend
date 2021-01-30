@@ -4,9 +4,10 @@ const passport = require('passport');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const express = require('express');
-const path = require('path');
+
 const auth = require('./routes/authenticate');
 const exercisesApi = require('./routes/exercises');
+const profilesApi = require('./routes/profiles');
 
 const dotenv = require('dotenv');
 dotenv.config();
@@ -72,7 +73,7 @@ require('./passportConfig')(passport);
 
 app.use('/authenticate', auth);
 app.use('/api/exercises', exercisesApi);
-app.get('/heartbeat', (req, res) => res.send('<3'));
+app.get('/api/profiles', profilesApi);
 
 //--------------End of Routes --------------------------
 
