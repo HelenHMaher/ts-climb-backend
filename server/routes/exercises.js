@@ -18,7 +18,7 @@ router.get('/singleExercise', ensureAuthenticated, (req, res) => {
       } catch (err) {
         return res.status(400).json({ msg: 'Something went wrong: ', err });
       }
-    },
+    }
   );
 });
 
@@ -51,7 +51,7 @@ router.get('/exercisesByType', ensureAuthenticated, (req, res) => {
       } catch (err) {
         return res.status(400).json({ msg: 'Something went wrong: ', err });
       }
-    },
+    }
   );
 });
 
@@ -74,9 +74,7 @@ router.post('/newExercise', (req, res) => {
       res.status(201).json({ msg: 'Exercise Created' });
     } catch (error) {
       return res.status(400).json({
-        msg: error.errors?.name?.message
-          ? error.errors.name.message
-          : 'incomplete input',
+        msg: 'exercise created',
       });
     }
   });
@@ -105,7 +103,7 @@ router.patch('/updateExercise', ensureAuthenticated, (req, res) => {
       } catch (err) {
         return res.status(400).json({ msg: 'Something went wrong: ', err });
       }
-    },
+    }
   );
 });
 
@@ -126,7 +124,7 @@ router.put('/exerciseInstance', ensureAuthenticated, (req, res) => {
       } catch (err) {
         return res.status(400).json({ msg: 'Something went wrong: ', err });
       }
-    },
+    }
   );
 });
 
@@ -145,7 +143,7 @@ router.delete('/exercise', ensureAuthenticated, (req, res) => {
       } catch (err) {
         return res.status(400).json({ msg: 'Something went wrong: ', err });
       }
-    },
+    }
   );
 });
 
