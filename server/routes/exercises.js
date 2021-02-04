@@ -99,27 +99,6 @@ router.patch('/updateExercise', ensureAuthenticated, (req, res) => {
         if (!data) {
           res.status(400).json({ msg: 'No exercise found' });
         }
-        res.status(201).json({ msg: 'Exercise deleted' });
-      } catch (err) {
-        return res.status(400).json({ msg: 'Something went wrong: ', err });
-      }
-    }
-  );
-});
-
-router.put('/exerciseInstance', ensureAuthenticated, (req, res) => {
-  Exercise.findOneAndUpdate(
-    {
-      name: req.body.exerciseId,
-    },
-    { $set: { mostRecent: req.body.workoutId } },
-    { useFindAndModify: false },
-    async (err, data) => {
-      try {
-        if (err) throw err;
-        if (!data) {
-          res.status(400).json({ msg: 'No exercise found' });
-        }
         res.status(201).json({ msg: 'Exercise updated' });
       } catch (err) {
         return res.status(400).json({ msg: 'Something went wrong: ', err });
@@ -128,10 +107,31 @@ router.put('/exerciseInstance', ensureAuthenticated, (req, res) => {
   );
 });
 
+// router.put('/exerciseInstance', ensureAuthenticated, (req, res) => {
+//   Exercise.findOneAndUpdate(
+//     {
+//       name: req.body.exerciseId,
+//     },
+//     { $set: { mostRecent: req.body.workoutId } },
+//     { useFindAndModify: false },
+//     async (err, data) => {
+//       try {
+//         if (err) throw err;
+//         if (!data) {
+//           res.status(400).json({ msg: 'No exercise found' });
+//         }
+//         res.status(201).json({ msg: 'Exercise updated' });
+//       } catch (err) {
+//         return res.status(400).json({ msg: 'Something went wrong: ', err });
+//       }
+//     }
+//   );
+// });
+
 router.delete('/exercise', ensureAuthenticated, (req, res) => {
-  Exercise.find(
+  Exercise.findOneAndDelete(
     {
-      name: req.body.exerciseId,
+      name: req.body.name,
     },
     async (err, data) => {
       try {

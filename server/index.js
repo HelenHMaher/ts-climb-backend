@@ -8,6 +8,7 @@ const express = require('express');
 const auth = require('./routes/authenticate');
 const exercisesApi = require('./routes/exercises');
 const profilesApi = require('./routes/profiles');
+const workoutsApi = require('./routes/workouts');
 
 const dotenv = require('dotenv');
 dotenv.config();
@@ -70,6 +71,7 @@ require('./passportConfig')(passport);
 app.use('/authenticate', auth);
 app.use('/api/exercises', exercisesApi);
 app.use('/api/profiles', profilesApi);
+app.use('/api/workouts', workoutsApi);
 
 //--------------End of Routes --------------------------
 
