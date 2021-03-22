@@ -30,5 +30,7 @@ const exercise = new Schema({
     default: [],
   },
 });
+mongoose.set('useCreateIndex', true);
+exercise.index({ name: 'text' });
 
 module.exports = mongoose.model('Exercise', exercise);

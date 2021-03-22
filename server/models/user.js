@@ -13,6 +13,8 @@ const user = new Schema({
   },
   email: {
     type: String,
+    required: true,
+    default: '',
   },
   registeredAt: {
     type: Date,
@@ -21,6 +23,8 @@ const user = new Schema({
   },
   lastLoggedIn: {
     type: Date,
+    required: true,
+    default: new Date(),
   },
 });
 mongoose.set('useCreateIndex', true);

@@ -6,7 +6,7 @@ const ensureAuthenticated = require('../ensureAuthenticated.js');
 router.get('/singleExercise', ensureAuthenticated, (req, res) => {
   Exercise.find(
     {
-      name: req.body.exerciseName,
+      name: req.body.name,
     },
     async (err, data) => {
       try {
@@ -89,13 +89,14 @@ router.patch('/updateExercise', ensureAuthenticated, (req, res) => {
       if (doc) return res.status(400).json({msg: 'Exercise Already Exists (choose a different name)'});
       Exercise.findOneAndUpdate(
         {
-          _id: req.body.exerciseId,
+          _id: req.body._id,
         },
         {
           $set: {
             name: req.body.name,
             description: req.body.description,
             type: req.body.type,
+            lastUpdated: new Date(),
           },
         },
         { useFindAndModify: false },

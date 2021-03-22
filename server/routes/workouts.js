@@ -6,7 +6,7 @@ const ensureAuthenticated = require('../ensureAuthenticated.js');
 router.get('/singleWorkout', ensureAuthenticated, (req, res) => {
   Workout.find(
     {
-      _id: req.body.workoutId,
+      name: req.body.name,
     },
     async (err, data) => {
       try {

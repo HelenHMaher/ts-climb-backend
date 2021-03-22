@@ -9,6 +9,7 @@ const workout = new Schema({
   name: {
     type: String,
     required: true,
+    index: true,
   },
   exercises: {
     type: Array,
@@ -28,5 +29,7 @@ const workout = new Schema({
     default: new Date(),
   }
 });
+mongoose.set('useCreateIndex', true);
+workout.index({ name: 'text' });
 
 module.exports = mongoose.model('Workout', workout);
