@@ -20,11 +20,15 @@ const exercise = new Schema({
     required: true,
     default: new Date(),
   },
-  mostRecent: {
-    type: Number,
+  lastUpdated: {
+    type: Date,
+    default: new Date(),
+  },
+  workouts: {
+    type: Array,
+    required: true,
+    default: [],
   },
 });
-mongoose.set('useCreateIndex', true);
-exercise.index({ name: 'text' });
 
 module.exports = mongoose.model('Exercise', exercise);

@@ -14,7 +14,7 @@ router.get('/user', ensureAuthenticated, (req, res) => {
         res.send({ msg: 'profile found', profile: data });
       }
     } catch (err) {
-      console.log('there was a problem finding the profile: ', err);
+      return res.status(400).json({ msg: 'Something went wrong: ', err });
     }
   });
 });

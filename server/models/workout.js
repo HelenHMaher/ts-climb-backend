@@ -3,9 +3,8 @@ const Schema = mongoose.Schema;
 
 const workout = new Schema({
   date: {
-    type: Date,
+    type: String,
     required: true,
-    default: new Date(),
   },
   name: {
     type: String,
@@ -24,6 +23,10 @@ const workout = new Schema({
     required: true,
     default: new Date(),
   },
+  lastUpdated: {
+    type: Date,
+    default: new Date(),
+  }
 });
 
 module.exports = mongoose.model('Workout', workout);
