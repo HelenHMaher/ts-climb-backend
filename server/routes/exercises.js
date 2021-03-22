@@ -140,10 +140,10 @@ router.patch('/updateExercise', ensureAuthenticated, (req, res) => {
 //   );
 // });
 
-router.delete('/exercise', ensureAuthenticated, (req, res) => {
+router.delete('/deleteExercise', ensureAuthenticated, (req, res) => {
   Exercise.findOneAndDelete(
     {
-      _id: req.body.exerciseId,
+      _id: req.body._id,
     },
     async (err, data) => {
       try {
