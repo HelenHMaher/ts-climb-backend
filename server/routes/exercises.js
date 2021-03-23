@@ -86,7 +86,9 @@ router.patch('/updateExercise', ensureAuthenticated, (req, res) => {
       if (err) {
         return res.status(400).json({msg: 'sorry something when wrong: ', err});
       }
-      if (doc) return res.status(400).json({msg: 'Exercise Already Exists (choose a different name)'});
+      console.log(doc);
+      console.log(doc._id.toString());
+      if (doc._id.toString() !== req.body._id) return res.status(400).json({msg: 'Exercise Already Exists (choose a different name)'});
       Exercise.findOneAndUpdate(
         {
           _id: req.body._id,
@@ -108,12 +110,12 @@ router.patch('/updateExercise', ensureAuthenticated, (req, res) => {
             }
             res.status(201).json({ msg: 'Exercise updated' });
           } catch (err) {
-            return res.status(400).json({ msg: 'Something went wrong: ', err });
+            return res.status(400).json({ msg: 'Something went wrong while updating: ', err });
           }
         }
       );
       } catch (err) {
-        return res.status(400).json({msg: 'Something when wrong: ', err});
+        return res.status(400).json({msg: 'Something went wrong: ', err});
       }
   });
 });
