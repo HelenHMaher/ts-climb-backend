@@ -1,18 +1,22 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const exercise = new Schema({
+const workout = new Schema({
+  date: {
+    type: String,
+    required: true,
+  },
   name: {
     type: String,
     required: true,
     index: true,
   },
-  description: {
-    type: String,
+  exercises: {
+    type: Array,
     required: true,
   },
-  type: {
-    type: Number,
+  notes: {
+    type: String,
     required: true,
   },
   createdOn: {
@@ -23,14 +27,9 @@ const exercise = new Schema({
   lastUpdated: {
     type: Date,
     default: new Date(),
-  },
-  workouts: {
-    type: Array,
-    required: true,
-    default: [],
-  },
+  }
 });
 mongoose.set('useCreateIndex', true);
-exercise.index({ name: 'text' });
+workout.index({ name: 'text' });
 
-module.exports = mongoose.model('Exercise', exercise);
+module.exports = mongoose.model('Workout', workout);

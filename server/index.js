@@ -7,7 +7,8 @@ const express = require('express');
 
 const auth = require('./routes/authenticate');
 const exercisesApi = require('./routes/exercises');
-const profilesApi = require('./routes/profiles');
+const userApi = require('./routes/user');
+const workoutsApi = require('./routes/workouts');
 
 const dotenv = require('dotenv');
 dotenv.config();
@@ -58,18 +59,10 @@ require('./passportConfig')(passport);
 //-----------End of Middleware ---------------------------
 //ROUTES
 
-// TODO: this is for production, not required for development
-// remove : " "proxy": "http://localhost:3001", " to package.json
-
-// app.get('/', function (req, res) {
-//   res.sendFile(path.join(__dirname, '../build', 'index.html'));
-// });
-
-// app.use('/', express.static(path.join(__dirname, '../build')));
-
 app.use('/authenticate', auth);
 app.use('/api/exercises', exercisesApi);
-app.use('/api/profiles', profilesApi);
+app.use('/api/profiles', userApi);
+app.use('/api/workouts', workoutsApi);
 
 //--------------End of Routes --------------------------
 
