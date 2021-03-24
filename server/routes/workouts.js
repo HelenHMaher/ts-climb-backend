@@ -41,8 +41,8 @@ router.post('/newWorkout', ensureAuthenticated, async (req, res) => {
     const newWorkout = new Workout({
       date: req.body.date,
       name: req.body.name,
-      exercises: req.body.exercises ? req.body.exercies : [],
-      notes: req.body.notes ? req.body.notes : '',
+      exercises: req.body.exercises || [],
+      notes: req.body.notes || '',
     });
     await newWorkout.save();
     res.status(201).json({msg: 'Workout Created'});
@@ -55,7 +55,7 @@ router.post('/newWorkout', ensureAuthenticated, async (req, res) => {
 router.patch('/updateWorkout', ensureAuthenticated, (req, res) => {
   Workout.findOneAndUpdate(
     {
-      _id: req.body.workoutId,
+      _id: req.body._id,
     },
     {
       $set: {
@@ -81,7 +81,7 @@ router.patch('/updateWorkout', ensureAuthenticated, (req, res) => {
 });
 
 
-router.delete('/exercise', ensureAuthenticated, (req, res) => {
+router.delete('/deleteWorkout', ensureAuthenticated, (req, res) => {
   Workout.findOneAndDelete(
     {
       _id: req.body._id,
