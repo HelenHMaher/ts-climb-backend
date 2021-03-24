@@ -3,10 +3,10 @@ const router = express.Router();
 const Workout = require('../models/workout.js');
 const ensureAuthenticated = require('../ensureAuthenticated.js');
 
-router.get('/singleWorkout', ensureAuthenticated, (req, res) => {
+router.get('/singleWorkout/:id', ensureAuthenticated, (req, res) => {
   Workout.find(
     {
-      name: req.body.name,
+      _id: req.params.id,
     },
     async (err, data) => {
       try {
@@ -36,32 +36,20 @@ router.get('/allWorkouts', ensureAuthenticated, (req, res) => {
   });
 });
 
-// router.get('/exercisesByType', ensureAuthenticated, (req, res) => {
-//   Exercise.find(
-//     {
-//       type: req.body.exerciseType,
-//     },
-//     async (err, data) => {
-//       try {
-//         if (err) throw err;
-//         if (!data) {
-//           res.status(400).json({ msg: 'No exercise found' });
-//         }
-//         res.status(201).json({ msg: 'Exercises found', exercise: data });
-//       } catch (err) {
-//         return res.status(400).json({ msg: 'Something went wrong: ', err });
-//       }
-//     }
-//   );
-// });
-
-router.post('/newWorkout', (req, res) => {
-  Workout.insertOne({
-    date: req.body.date,
-    name: req.body.name,
-    exercises: req.body.exercises ? req.body.exercies : [],
-    notes: req.body.notes ? req.body.notes : '',
-  });
+router.post('/newWorkout', ensureAuthenticated, async (req, res) => {
+  try {
+    const newWorkout = new Workout({
+      date: req.body.date,
+      name: req.body.name,
+      exercises: req.body.exercises ? req.body.exercies : [],
+      notes: req.body.notes ? req.body.notes : '',
+    });
+    await newWorkout.save();
+    res.status(201).json({msg: 'Workout Created'});
+  }
+  catch {
+    return res.status(400).json({msg: 'Something went wrong: ', err})
+  }
 });
 
 router.patch('/updateWorkout', ensureAuthenticated, (req, res) => {
@@ -92,31 +80,11 @@ router.patch('/updateWorkout', ensureAuthenticated, (req, res) => {
   );
 });
 
-// router.put('/workoutInstance', ensureAuthenticated, (req, res) => {
-//   Exercise.findOneAndUpdate(
-//     {
-//       name: req.body.exerciseId,
-//     },
-//     { $set: { mostRecent: req.body.workoutId } },
-//     { useFindAndModify: false },
-//     async (err, data) => {
-//       try {
-//         if (err) throw err;
-//         if (!data) {
-//           res.status(400).json({ msg: 'No exercise found' });
-//         }
-//         res.status(201).json({ msg: 'Exercise updated' });
-//       } catch (err) {
-//         return res.status(400).json({ msg: 'Something went wrong: ', err });
-//       }
-//     }
-//   );
-// });
 
 router.delete('/exercise', ensureAuthenticated, (req, res) => {
   Workout.findOneAndDelete(
     {
-      _id: req.body.workoutId,
+      _id: req.body._id,
     },
     async (err, data) => {
       try {

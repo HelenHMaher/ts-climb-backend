@@ -3,10 +3,10 @@ const router = express.Router();
 const Exercise = require('../models/exercise.js');
 const ensureAuthenticated = require('../ensureAuthenticated.js');
 
-router.get('/singleExercise', ensureAuthenticated, (req, res) => {
+router.get('/singleExercise/:id', ensureAuthenticated, (req, res) => {
   Exercise.find(
     {
-      name: req.body.name,
+      _id: req.params.id,
     },
     async (err, data) => {
       try {
@@ -55,7 +55,7 @@ router.get('/exercisesByType/:type', ensureAuthenticated, (req, res) => {
   );
 });
 
-router.post('/newExercise', (req, res) => {
+router.post('/newExercise', ensureAuthenticated, (req, res) => {
   Exercise.findOne({ name: req.body.name }, async (err, doc) => {
     try {
       if (err) {
@@ -120,27 +120,6 @@ router.patch('/updateExercise', ensureAuthenticated, (req, res) => {
   });
 });
 
-
-// router.put('/exerciseInstance', ensureAuthenticated, (req, res) => {
-//   Exercise.findOneAndUpdate(
-//     {
-//       name: req.body.exerciseId,
-//     },
-//     { $set: { mostRecent: req.body.workoutId } },
-//     { useFindAndModify: false },
-//     async (err, data) => {
-//       try {
-//         if (err) throw err;
-//         if (!data) {
-//           res.status(400).json({ msg: 'No exercise found' });
-//         }
-//         res.status(201).json({ msg: 'Exercise updated' });
-//       } catch (err) {
-//         return res.status(400).json({ msg: 'Something went wrong: ', err });
-//       }
-//     }
-//   );
-// });
 
 router.delete('/deleteExercise', ensureAuthenticated, (req, res) => {
   Exercise.findOneAndDelete(
