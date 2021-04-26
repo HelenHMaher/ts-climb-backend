@@ -54,6 +54,7 @@ router.post('/newWorkout', ensureAuthenticated, async (req, res) => {
 });
 
 router.patch('/updateWorkout', ensureAuthenticated, (req, res) => {
+  const exerciseObjects = req.body.exercises.map(x => {return {id:x}})
   Workout.findOneAndUpdate(
     {
       _id: req.body._id,
@@ -62,9 +63,11 @@ router.patch('/updateWorkout', ensureAuthenticated, (req, res) => {
       $set: {
         date: req.body.date,
         name: req.body.name,
-        exercises: req.body.exercises,
         notes: req.body.notes,
       },
+      $push: {
+        exercises: exerciseObjects
+      }
     },
     { useFindAndModify: false },
     async (err, data) => {
