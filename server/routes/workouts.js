@@ -38,10 +38,11 @@ router.get('/allWorkouts', ensureAuthenticated, (req, res) => {
 
 router.post('/newWorkout', ensureAuthenticated, async (req, res) => {
   try {
+    const exerciseObjects = req.body.exercises.map(x => {return {id: x}});
     const newWorkout = new Workout({
       date: req.body.date,
       name: req.body.name,
-      exercises: req.body.exercises || [],
+      exercises: exerciseObjects || [],
       notes: req.body.notes || '',
     });
     await newWorkout.save();
