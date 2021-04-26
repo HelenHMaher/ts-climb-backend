@@ -12,7 +12,7 @@ const workout = new Schema({
     index: true,
   },
   exercises: {
-    //object with id(String), sets(array), notes
+    //object with id(String), instanceId(String), sets(array), notes
     type: Array,
     required: true,
   },
