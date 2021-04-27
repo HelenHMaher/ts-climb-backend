@@ -9,6 +9,7 @@ const auth = require('./routes/authenticate');
 const exercisesApi = require('./routes/exercises');
 const userApi = require('./routes/user');
 const workoutsApi = require('./routes/workouts');
+const exerciseInWorkoutApi = require('./routes/exerciseInWorkout');
 
 const dotenv = require('dotenv');
 dotenv.config();
@@ -63,6 +64,7 @@ app.use('/authenticate', auth);
 app.use('/api/exercises', exercisesApi);
 app.use('/api/profiles', userApi);
 app.use('/api/workouts', workoutsApi);
+app.use('/api/exerciseInWorkout', exerciseInWorkoutApi);
 
 //--------------End of Routes --------------------------
 
