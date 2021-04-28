@@ -1,10 +1,11 @@
 const express = require('express');
+const uniquid = require('uniqid');
 const router = express.Router();
 const Workout = require('../models/workout.js');
 const ensureAuthenticated = require('../ensureAuthenticated.js');
 
 router.get('/singleWorkout/:id', ensureAuthenticated, (req, res) => {
-  Workout.find(
+  Workout.findOne(
     {
       _id: req.params.id,
     },
@@ -38,11 +39,14 @@ router.get('/allWorkouts', ensureAuthenticated, (req, res) => {
 
 router.post('/newWorkout', ensureAuthenticated, async (req, res) => {
   try {
+    const exerciseObjects = req.body.exercises.map(x => {return { id: x, instanceId: uniquid() }});
+    const name = req.body.name.length > 1 ? req.body.name : "unknown"
+    const notes = req.body.notes.length > 1 ? req.body.notes : "no notes"
     const newWorkout = new Workout({
       date: req.body.date,
-      name: req.body.name,
-      exercises: req.body.exercises || [],
-      notes: req.body.notes || '',
+      name: name,
+      exercises: exerciseObjects,
+      notes: notes,
     });
     await newWorkout.save();
     res.status(201).json({msg: 'Workout Created'});
@@ -53,6 +57,7 @@ router.post('/newWorkout', ensureAuthenticated, async (req, res) => {
 });
 
 router.patch('/updateWorkout', ensureAuthenticated, (req, res) => {
+  const exerciseObjects = req.body.exercises.map(x => {return { id: x, instanceId: uniquid() }})
   Workout.findOneAndUpdate(
     {
       _id: req.body._id,
@@ -61,9 +66,11 @@ router.patch('/updateWorkout', ensureAuthenticated, (req, res) => {
       $set: {
         date: req.body.date,
         name: req.body.name,
-        exercises: req.body.exercises,
         notes: req.body.notes,
       },
+      $push: {
+        exercises: exerciseObjects
+      }
     },
     { useFindAndModify: false },
     async (err, data) => {

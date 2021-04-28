@@ -12,6 +12,7 @@ const workout = new Schema({
     index: true,
   },
   exercises: {
+    //Array<{id: string, instanceId: string, sets: Array<string>, notes: string}>
     type: Array,
     required: true,
   },
