@@ -7,30 +7,60 @@ const ensureAuthenticated = require('../ensureAuthenticated.js');
 //update exerciseInWorkout
 
 router.patch('/updateExerciseInWorkout', ensureAuthenticated, async (req, res) => {
-    Workout.findOneAndUpdate(
+    Workout.findOne(
         {
-            _id: req.body.workoutId,
+            _id: req.body.workoutId
         },
-        {
-            $set: {
-                exercises: req.body.exercises
-            }
-        },
-        { useFindAndModify: false },
         async (err, data) => {
             try {
-                if(err) {
-                    res.status(400).json({msg: 'Something went wrong: ', err})
+                if (err) {
+                    res.status(400).json( { msg: 'Something went wrong: ', err } )
                 }
-                if(!data) {
-                    res.status(400).json({msg: 'No workout found'})
+                if (!data) {
+                    res.status(404).json({ msg: 'No workout found' })
                 }
-                res.status(201).json({msg: 'Exercise in Workout updated'})
-            } catch (err) {
-                res.status(400).json({msg: 'Something went wrong: ', err})
+                const updatedExercises = data.exercises
+                    .map(x => {
+                        if(x.instanceId === req.body.exercise.instanceId)
+                        { 
+                            // console.log(req.body.exercise);
+                            return req.body.exercise;
+                        } else { return x }
+                    });
+
+                console.log(updatedExercises);
+
+                Workout.findOneAndUpdate(
+                    {
+                        _id: req.body.workoutId,
+                    },
+                    {
+                        $set: {
+                            exercises: updatedExercises
+                        }
+                    },
+                    { useFindAndModify: false },
+                    async (err, data) => {
+                        try {
+                            if(err) {
+                                res.status(400).json({msg: 'Something went wrong: ', err})
+                            }
+                            if(!data) {
+                                res.status(400).json({msg: 'No workout found'})
+                            }
+                            res.status(201).json({msg: 'Exercise in Workout updated'})
+                        } catch (err) {
+                            res.status(400).json({msg: 'Something went wrong: ', err})
+                        }
+                    }
+                )
+
             }
-        }
-    )
+            catch (err) {
+                res.status(400).json( { msg: 'Something went wrong: ', err } )
+            }
+        })
+
 });
 
 //delete exerciseInWorkout

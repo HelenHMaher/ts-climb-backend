@@ -5,7 +5,7 @@ const Workout = require('../models/workout.js');
 const ensureAuthenticated = require('../ensureAuthenticated.js');
 
 router.get('/singleWorkout/:id', ensureAuthenticated, (req, res) => {
-  Workout.find(
+  Workout.findOne(
     {
       _id: req.params.id,
     },
