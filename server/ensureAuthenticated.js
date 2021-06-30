@@ -23,6 +23,6 @@ module.exports = function ensureAuthenticated(req, res, next) {
     next();
     return;
   } catch (err) {
-    return res.status(400).json({ msg: 'Token is not valid' });
+    return res.status(401).json({ msg: 'Token is not valid' });
   }
 };
